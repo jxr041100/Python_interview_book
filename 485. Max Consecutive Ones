@@ -1,0 +1,23 @@
+'''
+给定一个二进制数组，请找到此数组中最大连续1个数。
+
+范例1：
+输入：[1,1,0,1,1,1]
+输出3
+说明：前两位或后三位是连续的1。连续1的最大数量为3。
+'''
+
+class Solution(object):
+    def findMaxConsecutiveOnes(self, nums):
+        max_ones = 0
+        ones = 0
+        
+        for i in range(len(nums)):
+            if nums[i] == 1:
+                ones += 1
+            else:
+                # 重置为零
+                max_ones = max(max_ones, ones)
+                ones = 0
+        
+        return max(max_ones, ones)
