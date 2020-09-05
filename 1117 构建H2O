@@ -1,0 +1,27 @@
+'''
+有两种气体，氧气和氢气。您的目标是将这些线程分组以形成水分子。为氧和氢分子编写同步代码以强制执行这些约束。
+'''
+
+
+from threading import Lock
+class H2O:
+    def __init__(self):
+        self.h=Lock()
+        self.o=Lock()
+        self.o.acquire()
+        self.count=0
+
+    def hydrogen(self, releaseHydrogen: 'Callable[[], None]') -> None:
+        self.h.acquire()
+        self.count+=1
+        releaseHydrogen()
+        if(self.count==2):
+            self.count=0
+            self.o.release()
+        else:
+            self.h.release()
+
+    def oxygen(self, releaseOxygen: 'Callable[[], None]') -> None:
+        self.o.acquire()
+        releaseOxygen()
+        self.h.release()
