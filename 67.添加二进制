@@ -1,0 +1,33 @@
+”“”
+给定两个二进制字符串，返回它们的总和（也是一个二进制字符串）。
+输入字符串均为非空，并且仅包含字符1或0。
+范例1：
+输入：a =“11”，b =“ 1”
+输出：“ 100”
+“”“
+
+
+class Solution(object):
+    def addBinary(self, a:str, b:str) -> str:
+        len_a = len(a)
+        len_b = len(b) 
+        
+        max_length = max(len_a, len_b)
+        carry=0
+        new_str=[]
+        for i in range (-1,-max_length-1,-1):
+            element_a = 0 
+            element_b = 0
+            if abs(i) <= abs(len_a):
+                element_a = a[i]
+            
+            if abs(i) <= abs(len_b):
+                element_b = b[i]
+                
+            add = int(element_a) + int(element_b) + int(carry)
+            value = add %2
+            carry = add //2
+            new_str.insert(0,str(value))
+        if carry !=0:
+            new_str.insert(0, str(carry))
+        return ''.join(new_str)
