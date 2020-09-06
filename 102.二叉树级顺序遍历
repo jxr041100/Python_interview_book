@@ -1,0 +1,32 @@
+'''
+102.二叉树级顺序遍历
+'''
+
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        
+        result = []
+        if root == None:
+            return 
+        
+        # 利用python的队列
+        q = Queue ()        
+        # add the root 
+        q.put (root)
+                
+        while q.empty () != True :            
+            # 遍历队列中的元素数量 
+            temp = []
+            for i in range (q.qsize()):
+                # 取出第一个值
+                node = q.get()
+                temp.append(node.val)
+                
+                if node.left != None:
+                    q.put(node.left)
+                if node.right != None:
+                    q.put(node.right)
+                    
+            result.append(temp)
+        return result
+        
