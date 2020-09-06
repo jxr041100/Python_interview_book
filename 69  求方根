@@ -1,0 +1,24 @@
+""""
+实现int sqrt（int x）。计算并返回x的平方根，其中x保证是一个非负整数。由于返回类型是整数，因此十进制数字将被截断，并且仅返回结果的整数部分。
+"""
+
+
+class Solution:
+    def mySqrt(self, x: int) -> int:
+        if x == 0:
+            return 0
+        if x == 1:
+            return 1 
+        left =0
+        right = x
+        value = -1
+        while left <= right:
+            mid = (left + right) // 2 
+            if mid * mid > x: 
+                value = mid 
+                right = mid -1 
+            else: 
+                left = mid + 1 
+        if value * value > x:
+            return value - 1 
+        return value 
