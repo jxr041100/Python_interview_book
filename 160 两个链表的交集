@@ -1,0 +1,54 @@
+'''
+当然可以利用哈希表，把其中一个链表的所有节点保存下来。然后遍历另外一个链表，如果在哈希表中找到了，则返回。
+'''
+
+class Solution:
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
+        a=set()
+        while(headA):
+            a.add(headA)
+            headA=headA.next
+        while(headB):
+            if(headB in a):
+                return(headB)
+            headB=headB.next
+        return(None)
+        
+     
+    
+    ’‘’
+    当然，还有一个思路，就是双指针操作，确保两个链表具有相同的长度，然后遍历，寻找是否具有相同节点。
+    ‘’‘
+    class Solution:
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
+        def size(head: ListNode):
+            n = 0
+            while head:
+                n += 1
+                head = head.next
+            return n
+        # 获得链表的长度
+        nA = size(headA)
+        nB = size(headB)
+        
+        if nA==0 or nB==0:
+            return
+    
+        itr1 = headA
+        itr2 = headB
+        
+        # 找出链表长度之差    
+        d = nA-nB
+        if d>0:
+            while d>0:
+                itr1 = itr1.next
+                d = d -1
+        else:
+            while d<0:
+                itr2 = itr2.next
+                d = d+1
+        #目前两个链表长度一致，开始遍历
+        while itr1 != itr2:
+            itr1 = itr1.next
+            itr2 = itr2.next
+        return itr1
