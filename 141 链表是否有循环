@@ -1,0 +1,16 @@
+'''
+给定一个链表，确定其中是否有循环。
+为了表示给定链表中的循环，我们使用整数pos来表示尾部连接到链表中的位置（0索引）。如果pos为-1，则链接列表中没有循环。
+'''
+class Solution:
+    def hasCycle(self, head: ListNode) -> bool:
+        slow = head
+        fast = head
+        
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            if fast:
+                if fast.val == slow.val:
+                    return True
+        return False
