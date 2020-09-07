@@ -1,0 +1,18 @@
+"""
+给定一个整数数组和一个整数k，您需要找到总和等于k的连续子数组的总数。
+Input:nums = [1,1,1], k = 2
+Output: 2
+"""
+
+
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        table = defaultdict(int)
+        res,presum=0,0
+        table[0]=1
+        for i,num in enumerate(nums):
+            presum+=num
+            if presum-k in table:
+                res+=table[presum-k]
+            table[presum]+=1
+        return res
