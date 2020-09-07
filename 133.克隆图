@@ -1,0 +1,41 @@
+"""BFS solution"""
+
+class Solution:
+    def cloneGraph(self, node: 'Node') -> 'Node':
+        if node is None:
+            return None
+        # 定义一个队列
+        q = deque()
+        q.append(node)
+        # 利用哈希表来表示原来节点和新节点的对应关系
+        vis = defaultdict()
+        vis[node] = Node(node.val)
+        
+        while q:
+            front = q.popleft()
+            for child in front.neighbors:
+                # 如果当前节点没有访问过。
+                if child not in vis:
+                    vis[child] = Node(child.val)
+                    q.append(child)
+                vis[front].neighbors.append(vis[child])
+        return vis[node]
+        
+        
+        """DFS solution"""
+        
+        class Solution:
+    def cloneGraph(self, node: 'Node') -> 'Node':
+        table = {}
+        def dfs(node):
+            if not node:
+                return node
+            elif node.val in table:
+                return table[node.val]
+            else:    
+                ans = Node(node.val)
+                table[node.val] = ans
+                for n in node.neighbors:
+                    ans.neighbors.append(dfs(n))
+                return ans    
+        return dfs(node) 
