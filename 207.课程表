@@ -1,0 +1,44 @@
+"""
+您必须参加总共numCourses课程，从0到numCourses-1标记。某些课程可能有先决条件，
+例如，要学习课程0，您必须首先学习课程1，该课程以一对表示：[0,1]. 
+给定课程总数和先决条件对列表，您是否可以完成所有课程？
+"""
+
+
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        if numCourses==0:return true
+        
+        # 找到 inDegree = 0， 没有前置课程的课先上        
+        #记录每一门 preReq 上完之后可以解锁的后置课 Node -> leafs
+        adj = [[] for _ in range(numCourses)] 
+        q = deque()
+        
+        #记录每一门课需要的 preReq 数量 
+        indegree = [0]*numCourses
+        count = 0
+        
+        for i in range(len(prerequisites)):
+            #完成了 preReq, 才可以去上 course 后置课
+            adj[prerequisites[i][1]].append(prerequisites[i][0])
+            #记录入度，Course 的preReq 数量 + 1,
+            indegree[prerequisites[i][0]]+=1
+        
+         #找到度为 0， 不需要先行课的课程放入 queue 中
+        for i in range(numCourses):
+            if indegree[i]==0:
+                q.append(i)
+                count+=1
+                
+        # 用 inDegree = 0 的课程去解锁其他课程，直到都解锁，就返回True
+        while q:
+            # 上完 current 这门课，current 就解锁了之后的课
+            front = q.popleft()
+            for child in adj[front]:
+                indegree[child]-=1
+                # 如果新产生了入度0的课，放入q中
+                if indegree[child]==0:                    
+                    q.append(child)
+                    count+=1
+                    
+        return count==numCourses
