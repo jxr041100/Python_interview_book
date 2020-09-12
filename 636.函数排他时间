@@ -1,0 +1,28 @@
+
+
+class Node:
+    def __init__(self, id:int, time_flag:str, time_stamp:int):
+        self.id = id
+        self.time_flag = time_flag
+        self.time_stamp = time_stamp
+
+class Solution:
+    def exclusiveTime(self, n: int, logs: List[str]) -> List[int]:
+        nodes = []
+        stk =[]
+        res =[0]*n
+        for log in logs:
+            # 解析log
+            parse_log = log.split(":")
+            nodes.append(Node(int(parse_log[0]),parse_log[1],int(parse_log[2])))
+        for node in nodes:
+            if node.time_flag == "start":
+                stk.append(node) #进栈
+            else:
+                time_duration = node.time_stamp - stk[-1].time_stamp+1
+                res[node.id]+=time_duration
+                stk.pop() #出栈
+                if stk:
+                    #注意要减去堆栈顶部的时间
+                    res[stk[-1].id]-=time_duration
+        return res 
