@@ -1,0 +1,18 @@
+
+
+class Solution:
+    def longestOnes(self, A: List[int], K: int) -> int:
+        max_len = -1
+        # 定义双指针
+        left, right = 0,0
+        # 定义遇到零的个数
+        flip = 0
+        for right, item in enumerate(A):
+            if item == 0: flip+=1
+            # 确保当前零的个数不能超过K
+            while flip>K:
+                if A[left]==0: flip-=1
+                left+=1
+            #更新一下当前的最大长度
+            max_len = max(max_len,right-left+1)
+        return max_len
